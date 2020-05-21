@@ -8,11 +8,14 @@ def readFlag():
 
     normalizedPixels = []
 
-    for file in glob.glob("./flags/*.png"):
+    for file in glob.glob("./flags/*.jpg"):
 
         im = Image.open(file)
         rgb_im = im.convert('RGB')
         pix = rgb_im.getpixel
+
+        r, g, b = rgb_im.getpixel((1, 1))
+        # newList = [...odlList, r, g, b]
 
         width, height = im.size
         #print(file, "width,height", width, height)
@@ -26,11 +29,9 @@ def readFlag():
             pix((x, 4*y)), pix((2*x, 4*y)), pix((3*x, 4*y)), pix((4*x, 4*y))
         ]
 
-        for x in pixels:
-            for y in x:
-                normalizedPixels.append(y/255)
+        normalizedPixels.append(
+            [item/255 for t in pixels for item in t])  # 16 pixel (48) item
 
-    #print("Total RGBs", len(normalizedPixels))
     return normalizedPixels
 
 
