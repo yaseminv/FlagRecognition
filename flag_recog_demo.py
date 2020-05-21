@@ -14,16 +14,33 @@ from PIL import Image
 # 1,1 pixeldeki rgb yi okuma
 im = Image.open('ad.png')
 pix = im.load()
-print(pix[1, 1])
+width, height = im.size
+print("width,height", width, height)
+y = np.ceil(height/5-1)
+x = width/5
+pixels = [
+    pix[x, y], pix[2*x, y], pix[3*x, y], pix[4*x, y],
+    pix[x, 2*y], pix[2*x, 2*y], pix[3*x, 2*y], pix[4*x, 2*y],
+    pix[x, 3*y], pix[2*x, 3*y], pix[3*x, 3*y], pix[4*x, 3*y],
+    pix[x, 4*y], pix[2*x, 4*y], pix[3*x, 4*y], pix[4*x, 4*y]
+]
+
+normalizedPixels = []
+
+for x in pixels:
+    for y in x:
+        normalizedPixels.append(y/255)
 
 
-feature_set = np.random.rand(16, 48)
+print(normalizedPixels)
+
+feature_set = normalizedPixels
 
 
 # diyabettir (çıktı)
 
-labels = np.zeros(16)
-labels[0] = 1
+labels = np.eye(16)
+print("label", labels)
 # dik konuma getiriyoruz
 labels = labels.reshape(16, 1)
 
