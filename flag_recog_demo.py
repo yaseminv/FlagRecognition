@@ -6,43 +6,20 @@
 
 import numpy as np
 # sigara içer, obezdir, egzersiz yapar
-
-
+import readflag
 # pip install Pillow
-from PIL import Image
-
-# 1,1 pixeldeki rgb yi okuma
-im = Image.open('ad.png')
-pix = im.load()
-width, height = im.size
-print("width,height", width, height)
-y = np.ceil(height/5-1)
-x = width/5
-pixels = [
-    pix[x, y], pix[2*x, y], pix[3*x, y], pix[4*x, y],
-    pix[x, 2*y], pix[2*x, 2*y], pix[3*x, 2*y], pix[4*x, 2*y],
-    pix[x, 3*y], pix[2*x, 3*y], pix[3*x, 3*y], pix[4*x, 3*y],
-    pix[x, 4*y], pix[2*x, 4*y], pix[3*x, 4*y], pix[4*x, 4*y]
-]
-
-normalizedPixels = []
-
-for x in pixels:
-    for y in x:
-        normalizedPixels.append(y/255)
 
 
-print(normalizedPixels)
-
-feature_set = normalizedPixels
-
-
+feature_set = np.asarray(readflag.readFlag())
 # diyabettir (çıktı)
 
-labels = np.eye(16)
-print("label", labels)
+print(feature_set)
+
+labels = np.zeros(4944)
+labels[0] = 1
+#print("label", labels)
 # dik konuma getiriyoruz
-labels = labels.reshape(16, 1)
+labels = labels.reshape(4944, 1)
 
 # numpy için randomize seed oluştur
 # böylece seed'e bağlı her seferinde
@@ -50,7 +27,7 @@ labels = labels.reshape(16, 1)
 np.random.seed(1337)
 
 # ağırlıklar, bias ve öğrenme oranı
-weights = np.random.rand(48, 1)
+weights = np.random.rand(4944, 1)
 bias = np.random.rand(1)
 lr = 0.01
 
@@ -72,7 +49,7 @@ def sigmoid_der(x):
 
 
 # iterasyon sayısı
-for epoch in range(10000):
+for epoch in range(100):
     inputs = feature_set
 
     # ileri besleme aşama 1
