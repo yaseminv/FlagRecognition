@@ -1,14 +1,31 @@
-# sigara içmesine, obez olmasına ve egzersiz yapmasına
-# göre diyabet olup olmadığını öğrenen yapay sinir ağı
+# 16 bayrak
+# her bayrak icin 16 pixel
+# her pixel icin birer r,g ve b degerleri
+# feature_set 16 satir 48 sutun
+# labels[0]=1 1.bayrak icin diger indexler 0 (satir)
 
 import numpy as np
 # sigara içer, obezdir, egzersiz yapar
-feature_set = np.array([[0, 1, 0], [0, 0, 1], [1, 0, 0], [1, 1, 0], [1, 1, 1]])
+
+
+# pip install Pillow
+from PIL import Image
+
+# 1,1 pixeldeki rgb yi okuma
+im = Image.open('ad.png')
+pix = im.load()
+print(pix[1, 1])
+
+
+feature_set = np.random.rand(16, 48)
+
+
 # diyabettir (çıktı)
-labels = np.array([[1, 0, 0, 1, 1]])
+
+labels = np.zeros(16)
+labels[0] = 1
 # dik konuma getiriyoruz
-labels = labels.reshape(5, 1)
-print("s", labels)
+labels = labels.reshape(16, 1)
 
 # numpy için randomize seed oluştur
 # böylece seed'e bağlı her seferinde
@@ -16,7 +33,7 @@ print("s", labels)
 np.random.seed(1337)
 
 # ağırlıklar, bias ve öğrenme oranı
-weights = np.random.rand(3, 1)
+weights = np.random.rand(48, 1)
 bias = np.random.rand(1)
 lr = 0.01
 
@@ -38,7 +55,7 @@ def sigmoid_der(x):
 
 
 # iterasyon sayısı
-for epoch in range(10):
+for epoch in range(10000):
     inputs = feature_set
 
     # ileri besleme aşama 1

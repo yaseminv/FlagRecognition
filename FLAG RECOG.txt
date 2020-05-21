@@ -1,0 +1,30 @@
+FLAG RECOG
+
+# SETUP
+
+1. tum bayraklari oku
+2. responsive 16 nokta sec
+3. her noktanin rgb degerlerini bul
+4. degerleri 255'e bol normallestir
+5. degerleri sirasiyla tek dizide topla
+6. cikti tablosu olustur
+                     pixel1  pixel2
+- orn -> bayrak1 = [ 0,0,0,  255,255,255,  134,211,14,95,23,130, ...  ]
+bayrak2, 3 .... bayrak 254
+
+# ANN
+1. multi layer feedforward bir noron agi olustur
+
+
+
+# TRAINING
+
+1. bayrak - sonuc tablosu olustur
+bayrak sonuc tablosu
+
+        ---pixel1- --pixel2- pixel3 -pixel4-     ---pixel16-       sonuc
+bayrak1 255 115 13 0 231 211 0 0 0  254 0 12 ... 255 255 255       1 0 0 0 0 ....
+bayrak2 ...                                                        0 1 0 0 0 ....
+bayrak3 ...                                                        0 0 1 0 0 ....
+...
+bayrak254 ...                                                      ............ 1
