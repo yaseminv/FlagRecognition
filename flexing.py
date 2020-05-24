@@ -45,7 +45,7 @@ bh = np.random.randn(hidden_nodes)
 
 wo = np.random.rand(hidden_nodes,output_labels)
 bo = np.random.randn(output_labels)
-lr = 10e-4
+lr = 10e-3
 
 error_cost = []
 
