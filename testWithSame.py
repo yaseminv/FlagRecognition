@@ -1,28 +1,18 @@
 import numpy as np
-import readflag
+import functions as f
 import pickle
 import glob
 
-def softmax(A):
-    expA = np.exp(A)
-    return expA / expA.sum(axis=1, keepdims=True)
-
-def sigmoid(x):
-    return 1/(1+np.exp(-x))
-
-files = glob.glob("./flags/*.jpg")
-
-pickle_in = open("rick.pickle","rb")
+pickle_in = open("rick.pickle", "rb")
 wh, bh, wo, bo = pickle.load(pickle_in)
+flagNames = f.getFlagNames()
 
-z = readflag.readFlag(6)[1]
-
-for file in files:
+for file in glob.glob("./flags/*.jpg"):
     fileName = file[8:-4]
     np.set_printoptions(suppress=True)
-    zh = np.dot(np.vstack([readflag.getPixels(4, file)]), wh) + bh
-    ah = sigmoid(zh)
+    zh = np.dot(np.vstack([f.getPixels(4, file)]), wh) + bh
+    ah = f.sigmoid(zh)
     zo = np.dot(ah, wo) + bo
-    ao = softmax(zo)
+    ao = f.softmax(zo)
     flagIndex = np.where(ao == np.amax(ao))[1][0]
-    print(z[flagIndex], round(np.amax(ao),2)*100, "percent")
+    print(flagNames[flagIndex], int(round(np.amax(ao), 2)*100), "percent")
