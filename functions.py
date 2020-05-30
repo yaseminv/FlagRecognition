@@ -77,7 +77,7 @@ def getPixels(file):
 
 
 def readFlags():
-    normalizedPixels = []
+    pixels = []
     for file in glob.glob('./flags/*/*.jpg'):
-        normalizedPixels.append(getPixels(file))
-    return normalizedPixels
+        pixels.append(getPixels(file))
+    return pixels
