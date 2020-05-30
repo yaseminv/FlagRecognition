@@ -1,0 +1,1 @@
+FOR %%i IN (.\*.jpg) DO magick %%i -blur 0x5 %%%i

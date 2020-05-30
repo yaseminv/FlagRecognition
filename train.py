@@ -1,16 +1,18 @@
 import numpy as np
 import functions as f
 import pickle
+import glob
 
 # Ayarlar
-epoch_count = 10000
+epoch_count = 100000
 hidden_nodes = 16
-print_count = 20
-flag_division = 4
+print_count = 100
 learning_rate = 0.01
 
 flagNames = f.getFlagNames()
 flagCount = len(flagNames)
+allFlagCount = len(glob.glob("./flags/*/*.jpg"))
+folderSize = (int)(allFlagCount / flagCount)
 
 # Rastgele bir seed oluştur.
 # Bu işlem, rastgele sayı oluşturmanın tahmin
@@ -20,10 +22,12 @@ flagCount = len(flagNames)
 np.random.seed(42)
 
 # Giriş Nöronları
-feature_set = np.array(f.readFlags(flag_division))
+feature_set = np.array(f.readFlags())
+
+labels = np.array(list(range(0, flagCount))*folderSize)
 
 # Çıkış Nöronlarının kontrolü için birim matris üretir
-one_hot_labels = np.array(f.createEye(flagCount))
+one_hot_labels = np.array(f.createEye(flagCount, labels))
 
 instances = feature_set.shape[0]  # 100, Giriş olarak verilen kaç bayrak var?
 attributes = feature_set.shape[1]  # 48, Her bir bayrak için verilen veri
@@ -152,7 +156,7 @@ for epoch in range(epoch_count):
 
     if epoch % (epoch_count/print_count) == 0:
         loss = np.sum(-one_hot_labels * np.log(ao))
-        print('Kayıp fonksiyon değeri: ', loss)
+        print('Kayıp fonksiyon değeri:', loss)
 
 # Çıktı verilerini daha sonra okumak için dosyaya yaz
 pickle_out = open("rick.pickle", "wb")

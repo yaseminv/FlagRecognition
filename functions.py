@@ -20,19 +20,20 @@ def softmax(A):
 
 def getFlagNames():
     k = []
-    for file in glob.glob('./flags/*.jpg'):
-        k.append(file[8:-4])
+    for file in glob.glob('./flags/real/*.jpg'):
+        k.append(file.split("\\")[1][0:-4])
     return k
 
 
-def createEye(x):
-    eye = np.zeros((x, x))
-    for i in range(x):
-        eye[i, i] = 1
+def createEye(x, label):
+    eye = np.zeros((len(label), x))
+    for i in range(len(label)):
+        eye[i, label[i]] = 1
+
     return eye
 
 
-def getPixels(inRangeOf, file):
+def getPixels_OLD(inRangeOf, file):
     im = Image.open(file)
     rgb_im = im.convert('RGB')
     pix = rgb_im.getpixel
@@ -50,8 +51,33 @@ def getPixels(inRangeOf, file):
     return [item / 255 for t in pixels for item in t]
 
 
-def readFlags(lemme):
+def getPixels(file):
+    im = Image.open(file)
+    rgb_im = im.convert('RGB')
+    pix = rgb_im.getpixel
+
+    (width, height) = im.size
+
+    points = [[1 / 12, 1 / 12], [1 / 12, 2 / 12], [1 / 12, 3 / 12],
+              [2 / 12, 1 / 12], [2 / 12, 2 / 12], [2 / 12, 3 / 12],
+              [3 / 12, 1 / 12], [3 / 12, 2 / 12], [3 / 12, 3 / 12],
+              [2 / 12, 6 / 12], [2 / 12, 10 / 12], [6 / 12, 2 / 12],
+              [5 / 12, 5 / 12], [5 / 12, 6 / 12], [5 / 12, 7 / 12],
+              [6 / 12, 5 / 12], [6 / 12, 6 / 12], [6 / 12, 7 / 12],
+              [7 / 12, 5 / 12], [7 / 12, 6 / 12], [7 / 12, 7 / 12],
+              [10 / 12, 6 / 12], [6 / 12, 10 / 12], [10 / 12, 2 / 12],
+              [10 / 12, 10 / 12]]
+
+    pixels = []
+
+    for i in range(len(points)):
+        pixels.append(pix((points[i][0]*width, points[i][1]*height)))
+
+    return [item / 255 for t in pixels for item in t]
+
+
+def readFlags():
     normalizedPixels = []
-    for file in glob.glob('./flags/*.jpg'):
-        normalizedPixels.append(getPixels(lemme, file))
+    for file in glob.glob('./flags/*/*.jpg'):
+        normalizedPixels.append(getPixels(file))
     return normalizedPixels

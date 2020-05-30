@@ -1,0 +1,1 @@
+FOR %%i IN (.\*.jpg) DO magick %%i -evaluate add 20%% %%%i

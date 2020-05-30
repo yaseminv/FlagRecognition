@@ -7,12 +7,13 @@ pickle_in = open("rick.pickle", "rb")
 wh, bh, wo, bo = pickle.load(pickle_in)
 flagNames = f.getFlagNames()
 
-for file in glob.glob("./flags/*.jpg"):
-    fileName = file[8:-4]
+for file in glob.glob("./flags/*/*.jpg"):
+    fileName = file.split("\\")[2][0:-4]
     np.set_printoptions(suppress=True)
-    zh = np.dot(np.vstack([f.getPixels(4, file)]), wh) + bh
+    zh = np.dot(np.vstack([f.getPixels(file)]), wh) + bh
     ah = f.sigmoid(zh)
     zo = np.dot(ah, wo) + bo
     ao = f.softmax(zo)
     flagIndex = np.where(ao == np.amax(ao))[1][0]
-    print(flagNames[flagIndex], int(round(np.amax(ao), 2)*100), "percent")
+    print(fileName, flagNames[flagIndex], int(
+        round(np.amax(ao), 2)*100), "percent")
