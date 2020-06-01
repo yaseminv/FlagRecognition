@@ -29,8 +29,8 @@ labels = np.array(list(range(0, flagCount))*folderSize)
 # Çıkış Nöronlarının kontrolü için birim matris üretir
 one_hot_labels = np.array(f.createEye(flagCount, labels))
 
-instances = feature_set.shape[0]  # 100, Giriş olarak verilen kaç bayrak var?
-attributes = feature_set.shape[1]  # 48, Her bir bayrak için verilen veri
+instances = feature_set.shape[0]  # 400, Giriş olarak verilen kaç bayrak var?
+attributes = feature_set.shape[1]  # 75, Her bir bayrak için verilen veri
 output_labels = flagCount  # 100, Çıkış olarak istenen kaç bayrak var?
 
 # Hidden layer için rastgele weight ve bias üretir
