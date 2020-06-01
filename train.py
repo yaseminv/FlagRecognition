@@ -60,21 +60,21 @@ for epoch in range(epoch_count):
     # Giriş değerlerimizi weight ile çarpıp bias ekliyoruz.
     # Böylece her bir bayrak için hidden node kadar değer
     # elde etmiş oluyoruz.
-    zh = np.dot(feature_set, wh) + bh  # 100x48 . 48x16 = 100x16
+    zh = np.dot(feature_set, wh) + bh  # 400x75 . 75x16 = 400x16
 
     # Elde ettiğimiz bu değerin aktivasyon fonksiyonunu ne
     # kadar tetiklediğini buluyoruz.
-    ah = f.sigmoid(zh)  # 100x16
+    ah = f.sigmoid(zh)  # 400x16
 
     # Faz 2
     # Hidden node'lardan elde ettiğimiz değerleri weight ile
     # çarpıp bias ekliyoruz. Böylece her bir bayrak için output
     # node kadar değer elde etmiş oluyoruz.
-    zo = np.dot(ah, wo) + bo  # 100x16 . 16x100 = 100x100
+    zo = np.dot(ah, wo) + bo  # 400x16 . 16x100 = 400x100
 
     # Elde ettiğimiz bu değerin aktivasyon fonksiyonunu ne
     # kadar tetiklediğini buluyoruz.
-    ao = f.softmax(zo)  # 100x100
+    ao = f.softmax(zo)  # 400x100
 
     # Geri Yayılım (Back Propagation)
 
